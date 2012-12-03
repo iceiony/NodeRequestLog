@@ -1,15 +1,16 @@
 var sys = require('sys');
+var exec = require('child_process').exec;
+
 
 desc('This is an awesome task.');
 task('default', ['cleanupBuild','copyToBuild'], function () {
-	var list = new jake.FileList(),
-		executer;
+	var list = new jake.FileList();
 	list.include('build/**/*.ts');
-	executer = jake.createExec(["tsc "+list.toArray().join(' ')],{breakOnError :false});
-	executer.addListener('error', function (msg, code) {
-	    fail('Error building: ' + msg, code);  
-	});	
-	executer.run();
+	exec("tsc "+list.toArray().join(' '), function(error, stdout, stderr){
+			console.log(stdout);
+			console.log(stderr);
+			console.log("\nProcess ended\n "+error.stack);
+	});
 });
 
 task('cleanupBuild',[] ,function(){
