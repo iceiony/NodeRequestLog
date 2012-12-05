@@ -2,27 +2,13 @@ var sys = require('sys');
 var exec = require('child_process').exec;
 var fs = require('fs');
 
-var buildCleanup = function(){
-		var list = new jake.FileList()
-		,fileList
-		,i;
-	
-	console.log('Removing files:');
-	
-	list.include('build/**/*.ts');
-	fileList = list.toArray();
-	
-	for(i in fileList){
-		console.log(fileList[i]);
-		fs.unlink(fileList[i]);
-	};
-};
-
-desc('Removes all *.ts files from build output');
-task('cleanTSFromBuild',[],buildCleanup);
-
 desc('Does the actual build');
-task('default', ['cleanupBuild','copyToBuild'], function () {
+task('default', ['clearBuildFolder','copyToBuildFolder','typescriptBuild','cleanupTsFromBuild'], function () {
+	console.log('\nBUILD COMPLETE');
+});
+
+desc('Compiles TS files to JS')
+task('typescriptBuild',[] ,function(){
 	var list = new jake.FileList()
 		,fileList
 		,command
@@ -45,16 +31,31 @@ task('default', ['cleanupBuild','copyToBuild'], function () {
 					console.log(data.toString());
 				});
 			}
-			else {
-				buildCleanup();
-			};
 		});
 });
 
-task('cleanupBuild',[] ,function(){
+desc('Removes all *.ts files from build output');
+task('cleanupTsFromBuild',[],function(){
+		var list = new jake.FileList()
+		,fileList
+		,i;
+	
+	console.log('Removing files:');
+	
+	list.include('build/**/*.ts');
+	fileList = list.toArray();
+	
+	for(i in fileList){
+		console.log(fileList[i]);
+		fs.unlink(fileList[i]);
+	};
+});
+
+desc('Removes all files from build folder')
+task('clearBuildFolder',[] ,function(){
 	jake.rmRf('build');
 });
 
-task('copyToBuild',[],function(){
+task('copyToBuildFolder',[],function(){
 	jake.cpR('./src/','./build/');
 });
