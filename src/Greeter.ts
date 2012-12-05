@@ -3,3 +3,5 @@ class Greeter{
         return "Hello World";
     };
 }
+
+exports.Greeter = Greeter;
