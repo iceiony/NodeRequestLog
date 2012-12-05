@@ -9,3 +9,4 @@ Dependencies
 ============
 npm install -g Jake
 npm install -g typescript
+npm install mongodb
