@@ -1,8 +1,10 @@
 ///<reference path='lib.d.ts' />
+///<reference path='Node.d.ts' />
 
-var http = require('http');
+import http = module('http');
+import greet = module('./Greeter');
 
-var greet = require('./Greeter');
+
 var greeter = new greet.Greeter();
 
 console.log('server starting');
