@@ -14,8 +14,8 @@ class ServerWrapper {
     constructor() {
         console.log("Initialising...")
 
-        var instance = this;
-        var mongo_server_config = new mongo.Server("127.0.0.1", 27017, {});
+        var instance = this,
+            mongo_server_config = new mongo.Server("127.0.0.1", 27017, {});
 
         this.formatter = new format.SimpleFormatOutput();
         this.dataCollection = null;
@@ -26,7 +26,7 @@ class ServerWrapper {
         });
     }
 
-    public handleResponse(req: http.ServerRequest, res: http.ServerResponse) {
+    public handleResponse(req:http.ServerRequest, res:http.ServerResponse) {
         res.writeHead(200, {
             "Content-Type": "text/plain"
         });
@@ -42,7 +42,7 @@ class ServerWrapper {
         res.end();
     }
 
-    public recordRequest(req: http.ServerRequest) {
+    public recordRequest(req:http.ServerRequest) {
         console.log("Saving request");
         this.dataCollection.insert({
             method: req.method,
@@ -56,16 +56,16 @@ class ServerWrapper {
     public start() {
         console.log('Server starting');
 
-        var instance = this;
-        var server = http.createServer(function (req, res) {
-            instance.handleResponse(req, res);
-            instance.recordRequest(req);
-        });
+        var instance = this,
+            server = http.createServer(function (req, res) {
+                    instance.handleResponse(req, res);
+                    instance.recordRequest(req);
+                });
         server.listen(8000);
 
         console.log('Server running on port 8000');
     }
 }
 
-var localServer: ServerWrapper = new ServerWrapper();
+var localServer:ServerWrapper = new ServerWrapper();
 localServer.start();
