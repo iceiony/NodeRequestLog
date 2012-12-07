@@ -93,7 +93,7 @@ declare module "mongodb" {
 		noDelay?: bool;
 		//= Set if keepAlive is used default:0 , which means no keepAlive, set higher than 0 for keepAlive
 		keepAlive?: number;
-		//= ‘ascii’|’utf8’|’base64’ default:null
+		//= ï¿½asciiï¿½|ï¿½utf8ï¿½|ï¿½base64ï¿½ default:null
 		encoding?: string;
 	}
 
@@ -114,7 +114,7 @@ declare module "mongodb" {
 	export interface DBOptions {
 		//- if true, use native BSON parser
 		native_parser?: bool;
-		//- sets strict mode , if true then existing collections can’t be “recreated” etc.
+		//- sets strict mode , if true then existing collections canï¿½t be ï¿½recreatedï¿½ etc.
 		strict?: bool;
 		//- custom primary key factory to generate _id values (see Custom primary keys).
 		pk?: PKFactory;
@@ -128,7 +128,7 @@ declare module "mongodb" {
 		reaper?: bool;
 		//- specify the number of milliseconds between each reaper attempt default:10000
 		reaperInterval?: number;
-		//- specify the number of milliseconds for timing out callbacks that don’t return default:30000
+		//- specify the number of milliseconds for timing out callbacks that donï¿½t return default:30000
 		reaperTimeout?: number;
 		//- driver expects Buffer raw bson document, default:false
 		raw?: bool;
@@ -155,11 +155,11 @@ declare module "mongodb" {
 		readPreference?: string; 
 	}
 
-	export interface Collection {
-		//constructor (db: Db, collectionName: string, pkFactory, options);
-		
-		insert(query: any, callback: (err: any, result: any) => void): void;
-		insert(query: any, options: { safe?: any; continueOnError?: bool; keepGoing?: bool; serializeFunctions?: bool; }, callback: (err: any, result: any) => void): void;
+	export class Collection {
+		constructor (db: Db, collectionName: string);
+
+		insert(query: any, callback?: (err: any, result: any) => void): void;
+		insert(query: any, options: { safe?: any; continueOnError?: bool; keepGoing?: bool; serializeFunctions?: bool; }, callback?: (err: any, result: any) => void): void;
 		
 		remove(selector, callback?: (err: any, result: any) => void);
 		remove(selector, options: { safe?: any; single?: bool; }, callback?: (err: any, result: any) => void);
