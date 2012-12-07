@@ -26,7 +26,7 @@ var formatter = new format.SimpleFormatOutput(),
         },
         recordRequest = (function () {
             var dataCollection: mongo.Collection = null;
-            new mongo.Db('test', mongo_server_config, {w: 1}).open(function (error, client) {
+            new mongo.Db('RequestLog', mongo_server_config, {w: 1}).open(function (error, client) {
                 if (error) throw error;
                 dataCollection = new mongo.Collection(client, 'requestData');
             });
