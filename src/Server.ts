@@ -27,30 +27,52 @@ class ServerWrapper {
     }
 
     public handleResponse(req:http.ServerRequest, res:http.ServerResponse) {
-        res.writeHead(200, {
-            "Content-Type": "text/plain"
+        var instance = this,
+            postData = "";
+        process.nextTick(function(){
+            res.writeHead(200, {
+                "Content-Type": "text/plain",
+                "Charset": "utf-8"
+            });
+            res.write(req.method + '\n');
+            res.write(req.connection.remoteAddress + '\n');
+            res.write(req.url + '\n');
+            res.write(instance.formatter.formatJSON(JSON.stringify(req.headers)));
+            console.log("headers printed");
         });
-
-        res.write(req.method + '\n');
-        res.write(req.connection.remoteAddress + '\n');
-        res.write(req.url + '\n');
-        res.write(this.formatter.formatJASON(JSON.stringify(req.headers)));
 
         req.on('data', function (data) {
-            res.write(data.toString());
+            postData += data.toString();
         });
-        res.end();
+
+        req.on('end', function(){
+            process.nextTick(function(){
+                res.end(postData);
+                console.log("ended")       ;
+            });
+        });
     }
 
     public recordRequest(req:http.ServerRequest) {
-        console.log("Saving request");
-        this.dataCollection.insert({
-            method: req.method,
-            url: req.url,
-            ip: req.connection.remoteAddress,
-            headers: req.headers
-        }, {safe: false});
-        console.log("Request saved");
+        var postData="",
+            instance = this;
+
+        req.on('data', function(data){
+            postData += data.toString();
+            console.log("data received for saving");
+        });
+
+        req.on('end', function(){
+            console.log("Saving request");
+            instance.dataCollection.insert({
+                method: req.method,
+                url: req.url,
+                ip: req.connection.remoteAddress,
+                headers: req.headers,
+                data: postData
+            }, {safe: false});
+            console.log("Request saved");
+        });
     }
 
     public start() {
