@@ -1,6 +1,6 @@
-///<reference path='mongodb.d.ts'/>
+///<reference path='./Definitions/mongodb.d.ts'/>
+///<reference path='./Definitions/node.d.ts' />
 ///<reference path='lib.d.ts' />
-///<reference path='node.d.ts' />
 import mongo = module('mongodb');
 import http = module('http');
 

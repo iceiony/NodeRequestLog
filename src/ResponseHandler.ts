@@ -1,5 +1,5 @@
 ///<reference path='lib.d.ts' />
-///<reference path='node.d.ts' />
+///<reference path='./Definitions/node.d.ts' />
 import format = module('./FormatOutput');
 import http = module('http');
 

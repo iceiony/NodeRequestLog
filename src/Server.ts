@@ -1,5 +1,5 @@
 ///<reference path='lib.d.ts' />
-///<reference path='node.d.ts' />
+///<reference path='./Definitions/mongodb.d.ts'/>
 
 import http = module('http');
 import handler = module('./ResponseHandler');
