@@ -7,11 +7,10 @@ Storage to MongoDB
 
 Dependencies
 ============
-Packages:
+Global require packages :
 
     npm install -g Jake
     npm install -g typescript
-    npm install mongodb
 
 Other:
 * `mongoDB` instance running on local machine
